@@ -97,11 +97,6 @@ async def show_havelis_menu(query, context):
         keyboard.append([InlineKeyboardButton(name, callback_data=f"haveli_{i}")])
 
     nav_buttons = []
-    if current_index > 0:
-        nav_buttons.append(InlineKeyboardButton("⬅️ Prev", callback_data="prev"))
-    if current_index + 5 < len(translated_list):
-        nav_buttons.append(InlineKeyboardButton("Next ➡️", callback_data="next"))
-
     if nav_buttons:
         keyboard.append(nav_buttons)
 
@@ -132,22 +127,6 @@ async def paginate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await show_havelis_menu(query, context)
 
 # Haveli detail handler
-async def haveli_detail(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    try:
-        index = int(query.data.split("_")[1])
-        if index < 0 or index >= len(HAVELIS):
-            await query.message.reply_text("⚠️ Invalid haveli selection")
-            return
-    except (ValueError, IndexError):
-        await query.message.reply_text("⚠️ Invalid selection")
-        return
-
-    lang = context.user_data.get("lang", "en")
-    await send_haveli_content(index, context, query.message.chat_id, lang)
-
 async def send_haveli_content(index, context, chat_id, lang):
     haveli = HAVELIS[index]
 
@@ -161,9 +140,7 @@ async def send_haveli_content(index, context, chat_id, lang):
     )
 
     # Translate content asynchronously
-    name_task = asyncio.create_task(translate(haveli["name"], lang))
-    desc_task = asyncio.create_task(translate(haveli["description"], lang))
-    location_task = asyncio.create_task(translate("📍 Location: ", lang))
+
 
     translated_name, translated_desc, location_prefix = await asyncio.gather(
         name_task, desc_task, location_task
@@ -219,44 +196,7 @@ async def send_haveli_content(index, context, chat_id, lang):
         parse_mode="MarkdownV2"
     )
 
-    # Audio generation - only if description exists
-    if translated_desc and translated_desc.strip():
-        audio_msg = await context.bot.send_message(
-            chat_id=chat_id,
-            text=await translate("🔊 Generating audio...", lang)
-        )
-
-        audio_file = None
-        try:
-            audio_file = await genrate_audio(translated_desc, lang)
-            if audio_file:
-                with open(audio_file, "rb") as audio:
-                    await context.bot.send_audio(
-                        chat_id=chat_id,
-                        audio=audio,
-                        title=f"{translated_name[:64]}",
-                        performer="Haveli Guide"
-                    )
-            else:
-                await context.bot.send_message(
-                    chat_id=chat_id,
-                    text=await translate("⚠️ Audio generation failed", lang)
-                )
-        except Exception as e:
-            logger.error(f"Audio error: {e}")
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=await translate("⚠️ Audio could not be generated", lang)
-            )
-        finally:
-            await audio_msg.delete()
-            if audio_file and os.path.exists(audio_file):
-                try:
-                    os.remove(audio_file)
-                except Exception as e:
-                    logger.error(f"Error removing audio file: {e}")
-
-    # Feedback
+        # Feedback
     feedback_text = await translate("Was this information helpful?", lang)
     feedback_keyboard = [
         [
