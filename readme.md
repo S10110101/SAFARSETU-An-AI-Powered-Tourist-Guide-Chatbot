@@ -127,7 +127,6 @@ SAFARSETU addresses the critical limitations of standard monolithic chatbots and
 ### Prerequisites
 * Python **3.10+**
 * A Telegram Bot Token from [@BotFather](https://t.me/BotFather)
-* `[PLACEHOLDER]` *Add any specific API keys needed (e.g., Google Translate API key for higher rate limits).*
 
 ### Quick Start
 ```bash
@@ -164,7 +163,7 @@ Once the bot is running, interacting with it is designed to be highly intuitive,
 | `/start` | Kicks off the onboarding flow and language selection. |
 | `hindi` / `urdu` | Instantly switches the UI and content to the requested language. |
 | `next` / `prev` | Navigates through the paginated list of available heritage sites. |
-| **📷 Upload Photo** | Send an image of an architectural feature to trigger the Visual Query Module (ACVQM) for identification. |
+| **📷 Photo** | Send an image of an architectural feature to trigger the Visual Query Module (ACVQM) for identification. |
 
 ### 🚶 The User Journey
 1. **Launch:** Start the bot via Telegram and choose your preferred language (English, हिन्दी, اردو).
