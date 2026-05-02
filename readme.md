@@ -1,4 +1,4 @@
-# 🏰 HaveliGuideBot – Interactive Heritage Explorer
+# 🏰 SAFARSETU: An AI-Powered Tourist Guide Chatbot
 
 &#x20;&#x20;
 
@@ -224,8 +224,8 @@ Created on 21/06/2025
 
 | Role          | Name / Handle      | Reach Out                                                  |
 | ------------- | ------------------ | ---------------------------------------------------------- |
-| Project Lead  | **Your Name**      | `your.email@example.com` • @yourusername                   |
-| Telegram Live | **HaveliGuideBot** | [https://t.me/HaveliGuideBot](https://t.me/HaveliGuideBot) |
+| Project Lead  | **SHIVANG AGRAWAL** | @S10110101                 |
+| Telegram Live | **SAFARSETU** | [https://t.me/HaveliGuideBot](https://t.me/HaveliGuideBot) |
 
 ---
 
